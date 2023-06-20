@@ -1,0 +1,69 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <!-- TABLES -->
+    <changeSet id="create-table-notification_setting_aud" author="Alexandr Tretyakov">
+        <createTable tableName="notification_setting_aud">
+            <column name="id" type="uuid">
+                <constraints nullable="false"  primaryKey="true"/>
+            </column>
+            <column name="rev" type="integer">
+                <constraints nullable="false" primaryKey="true" />
+            </column>
+            <column name="revtype" type="smallint"/>
+            <column name="account_id" type="uuid">
+                <constraints nullable="false"/>
+            </column>
+            <column name="enable_comment_comment" type="boolean"/>
+            <column name="enable_friend_birthday" type="boolean"/>
+            <column name="enable_friend_request" type="boolean"/>
+            <column name="enable_like" type="boolean"/>
+            <column name="enable_message" type="boolean"/>
+            <column name="enable_post" type="boolean"/>
+            <column name="enable_post_comment" type="boolean"/>
+            <column name="enable_send_email_message" type="boolean"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="create-table-user_revision" author="Alexandr Tretyakov">
+        <createTable tableName="user_revision">
+            <column name="id" type="integer">
+                <constraints nullable="false"  primaryKey="true"/>
+            </column>
+            <column name="timestamp" type="bigint">
+                <constraints nullable="false"  />
+            </column>
+            <column name="user_author" type="jsonb"/>
+        </createTable>
+    </changeSet>
+    <!-- END TABLES -->
+
+    <!-- INDEXES -->
+    <!-- END INDEXES -->
+
+    <!-- FOREIGN KEYS -->
+    <changeSet  author="Alexandr Tretyakov"  id="addForeignKeyConstraint">
+        <addForeignKeyConstraint  baseColumnNames="rev"
+                                  baseTableName="notification_setting_aud"
+                                  baseTableSchemaName="notification"
+                                  constraintName="fk_to_user_revision"
+                                  referencedColumnNames="id"
+                                  referencedTableName="user_revision"
+                                  referencedTableSchemaName="notification"
+                                  validate="true"/>
+    </changeSet>
+    <!-- END FOREIGN KEYS -->
+
+    <!-- SEQUENCES -->
+    <changeSet  author="Alexandr Tretyakov"  id="createSequence-hibernate_sequence">
+        <createSequence  incrementBy="1"
+                         schemaName="notification"
+                         sequenceName="hibernate_sequence"
+                         startValue="1"/>
+    </changeSet>
+    <!-- EDN SEQUENCES -->
+
+</databaseChangeLog>

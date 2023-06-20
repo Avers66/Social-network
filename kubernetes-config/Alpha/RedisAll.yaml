@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis-deployment
+  namespace: skillbox-alpha
+  labels:
+    app: redis
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redis
+  template:
+    metadata:
+      labels:
+        app: redis
+
+    spec:
+      containers:
+      - name: redis
+        image: redis
+        ports:
+          - protocol: TCP
+            containerPort: 6379
+
+
+
+---
+
+
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis-service
+  namespace: skillbox-alpha
+  labels:
+    env  : prod
+    owner: 
+spec:
+  selector:
+    app: redis    # Selecting PODS with those Labels
+  ports:
+    - name      : app-listener
+      protocol  : TCP
+      port      : 6379  # Port on Load Balancer
+      targetPort: 6379  # Port on POD
+  type: ClusterIP

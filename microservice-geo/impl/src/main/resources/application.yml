@@ -1,0 +1,57 @@
+server:
+  port: 8080
+
+spring:
+  profiles:
+    active: #local
+  liquibase:
+    enabled: true
+    drop-first: false
+    change-log: classpath:database-geo-changelog.xml
+
+  datasource:
+    url: jdbc:postgresql://${DB_HOST}/${DB_DATABASE}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    driverClassName: org.postgresql.Driver
+
+  jpa:
+    show-sql: false
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQL10Dialect
+        format_sql: true
+        default_schema: ${DB_SCHEMA}
+    open-in-view: false
+
+  redis:
+    host: ${REDIS_HOST}
+    timeout: 2000
+  cache:
+    redis:
+      time-to-live: 600000 # TTL ms
+  data:
+    redis:
+      repositories.enabled: false
+
+springdoc:
+    api-docs:
+      enabled: true
+      path: '/api/v1/geo/v3/api-docs'
+    swagger-ui:
+      path: '/api/v1/geo/swagger-ui'
+      doc-expansion: none
+      disable-swagger-default-url: true
+
+
+geo-settings:
+  countries:
+    - countryName:  Россия
+      id: 113
+    - countryName:  Беларусь
+      id: 16
+    - countryName:  Казахстан
+      id: 40
+  userAgent: api-test-agent

@@ -1,0 +1,133 @@
+kind: Secret
+apiVersion: v1
+metadata:
+  name: microservice-account
+  namespace: skillbox-alpha
+stringData:
+  DB_HOST: "postgres-service"
+  DB_PASSWORD: "account"
+  DB_SCHEMA: "account"
+  DB_USERNAME: "account"
+  PG_ADMIN: "skillbox"
+  PG_ADMIN_PASSWORD: "skillbox"
+  DB_NAME: "skillbox"
+
+---
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: microservice-account
+data:
+  application.yml: |-
+
+    server:
+      port: 8080
+
+    spring:
+      liquibase:
+        enabled: true
+        drop-first: false
+        change-log: classpath:database-account-changelog.xml
+        default_schema: account
+
+      datasource:
+        url: jdbc:postgresql://postgres-service:5432/skillbox
+        username: account
+        password: account
+        driverClassName: org.postgresql.Driver
+
+      jpa:
+        show-sql: true
+        hibernate:
+          ddl-auto: none
+        properties:
+          hibernate:
+            dialect: org.hibernate.dialect.PostgreSQL10Dialect
+            format_sql: true
+            default_schema: account
+        open-in-view: false
+        
+      microservice-account:
+        url: http://microservice-account
+    logging:
+      level:
+        org.springframework: info    
+
+
+---
+
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: microservice-account
+  namespace: skillbox-alpha
+  labels:
+    app: microservice-account
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: microservice-account
+  template:
+    metadata:
+      labels:
+        app: microservice-account
+    spec:
+      volumes:
+        - name: microservice-account
+          configMap:
+            name: microservice-account
+            items:
+              - key: application.yml
+                path: application.yml
+      containers:
+        - name: app
+          image: alphateam35/microservice-account:latest
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+          env:
+            - name: JAVA_OPTIONS
+              value: '-Xms128m -Xmx256m -Xss512k'
+            - name: DB_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: microservice-account
+                  key: DB_HOST
+            - name: DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: microservice-account
+                  key: DB_USERNAME
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: microservice-account
+                  key: DB_PASSWORD
+          resources:
+            limits:
+              cpu: 300m
+              memory: 450Mi
+            requests:
+              cpu: 200m
+              memory: 256Mi
+          volumeMounts:
+            - name: microservice-account
+              mountPath: /app/config
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: microservice-account
+  namespace: skillbox-alpha
+spec:
+  selector:
+    app: microservice-account
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 8080
+  type: NodePort

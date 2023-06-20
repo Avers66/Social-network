@@ -1,0 +1,23 @@
+По умолчанию log.retention.hours=168 часов (7 суток) или log.retention.minutes=10 (10 минут) в файле config/server.properties устанавливается до запуска сервера
+
+
+
+Выводит описание заданного топика в т.ч. и retention.hours (retention.minutes, retention.ms)
+/bin
+kafka-configs.sh --describe --all --bootstrap-server=0.0.0.0:9092 --topic event
+
+
+
+Устанавливает время хранения сообщений для заданного топика 10 часов 
+/bin
+kafka-configs.sh --alter --add-config retention.ms=36000000 --bootstrap-server=0.0.0.0:9092 --topic event
+kafka-configs.sh --alter --add-config retention.ms=36000000 --bootstrap-server=0.0.0.0:9092 --topic event.streaming
+kafka-configs.sh --alter --add-config retention.ms=36000000 --bootstrap-server=0.0.0.0:9092 --topic t.dialog.message.in
+kafka-configs.sh --alter --add-config retention.ms=36000000 --bootstrap-server=0.0.0.0:9092 --topic t.dialog.message.out
+
+
+
+__cluster_metadata   - 60 Мб  - это не топик. Не уменьшился при удалении сообщений
+
+
+

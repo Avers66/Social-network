@@ -1,0 +1,105 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: microservice-streaming
+  namespace: skillbox-alpha
+data:
+  application.yml: |-
+
+    server:
+      port: 8080
+
+    spring:
+      cache:
+        type: simple
+      redis.host: redis
+      data:
+        redis:
+          repositories.enabled: false
+      autoconfigure:
+        exclude: org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration
+
+    logging:
+      level:
+        org.springframework: debug
+      file:
+        name: application.log
+      logback:
+        rolling policy:
+          max-history: 3
+          clean-history-on-start: true
+          
+          
+          
+---
+
+
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: microservice-streaming
+  namespace: skillbox-alpha
+  labels:
+    app: microservice-streaming
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: microservice-streaming
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: microservice-streaming
+
+    spec:
+      volumes:
+        - name: microservice-streaming
+          configMap:
+            name: microservice-streaming
+            items:
+              - key: application.yml
+                path: application.yml
+            defaultMode: 420
+      containers:
+        - name: app
+          image: alphateam35/microservice-streaming:latest
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+          env:
+            - name: JAVA_OPTIONS
+              value: '-Xms128m -Xmx256m -Xss512k'
+          resources:
+            limits:
+              cpu: 300m
+              memory: 450Mi
+            requests:
+              cpu: 200m
+              memory: 256Mi
+          volumeMounts:
+            - name: microservice-streaming
+              mountPath: /app/config
+
+  
+  
+---
+
+
+
+kind: Service
+apiVersion: v1
+metadata:
+  name: microservice-streaming
+  namespace: skillbox-alpha
+spec:
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+      nodePort: 30855
+  selector:
+    app: microservice-streaming
+  type: NodePort
+
+

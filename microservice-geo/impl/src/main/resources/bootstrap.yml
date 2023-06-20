@@ -1,0 +1,32 @@
+spring:
+  application:
+    name: microservice-geo
+
+#  config:
+#    import: kubernetes
+
+  cloud:
+    kubernetes:
+      secrets:
+        sources:
+          - name: microservice-geo
+            namespace: skillbox-alpha
+      config:
+        sources:
+          - namespace: skillbox-alpha
+            name: microservice-geo
+      reload:
+        enabled: true
+        strategy: refresh # restart_context | shutdown
+        mode: event # polling
+
+management:
+  endpoint:
+    restart:
+      enabled: true
+    health:
+      enabled: true
+    info:
+      enabled: true
+    prometheus:
+      enabled: true

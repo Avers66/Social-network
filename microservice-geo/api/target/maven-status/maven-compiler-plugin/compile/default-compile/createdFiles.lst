@@ -1,0 +1,6 @@
+ru\skillbox\diplom\group35\microservice\geo\dto\CountryDto.class
+ru\skillbox\diplom\group35\microservice\geo\dto\HeadHunterCityDto.class
+ru\skillbox\diplom\group35\microservice\geo\dto\HeadHunterCountryDto.class
+ru\skillbox\diplom\group35\microservice\geo\resource\GeoResource.class
+ru\skillbox\diplom\group35\microservice\geo\dto\CityDto.class
+ru\skillbox\diplom\group35\microservice\geo\dto\HeadHunterRegionDto.class

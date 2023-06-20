@@ -1,0 +1,76 @@
+server:
+  port: 8080
+
+spring:
+  security:
+    user:
+      name: post
+      password: post
+  boot:
+    admin:
+      client:
+        enabled: false
+  cloud:
+    kubernetes:
+      config:
+        enabled: false
+      reload:
+        monitoring-config-maps: false
+  datasource:
+    url: jdbc:postgresql://host.docker.internal:5432/skillbox
+    username: postgres
+    password: password
+    driverClassName: org.postgresql.Driver
+
+  liquibase:
+    enabled: true
+    drop-first: false
+    change-log: classpath:database-post-changelog.xml
+    default-schema: post
+    liquibase-schema: post
+
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQL10Dialect
+        format_sql: true
+        default_schema: post
+    open-in-view: false
+
+  cache:
+    type: simple
+  redis.host: redis
+  data:
+    redis:
+      repositories.enabled: false
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration
+
+  kafka:
+    consumer:
+      group-id: event.1
+    bootstrap-servers: 82.202.214.42:9094
+
+springdoc:
+  api-docs:
+    enabled: true
+    path: '/api/v1/post/v3/api-docs'
+  swagger-ui:
+    path: '/api/v1/post/swagger-ui'
+    doc-expansion: none
+    disable-swagger-default-url: true
+
+logging:
+  level:
+    org.springframework.web: info
+    org.hibernate: error
+    ru: info
+  file:
+    name: application.log
+  logback:
+    rolling policy:
+      max-history: 3
+      clean-history-on-start: true

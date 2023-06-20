@@ -1,0 +1,42 @@
+server:
+  port: 8080
+
+spring:
+  liquibase:
+    enabled: false
+    drop-first: false
+    change-log: classpath:database-notification-changelog.xml
+
+  datasource:
+    url: jdbc:postgresql://${DB_HOST}/${DB_DATABASE}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    driverClassName: org.postgresql.Driver
+
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQL10Dialect
+        format_sql: true
+        default_schema: ${DB_SCHEMA}
+    open-in-view: false
+
+  kafka:
+    consumer:
+      group-id: event.1
+    bootstrap-servers: 82.202.214.42:9094 # kafka-statefulset-0.kafka-svc.kafka.svc.cluster.local:9092
+
+  autoconfigure:
+    exclude:    org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration
+
+springdoc:
+  api-docs:
+    enabled: true
+    path: '/api/v1/notifications/v3/api-docs'
+  swagger-ui:
+    path: '/api/v1/notifications/swagger-ui'
+    doc-expansion: none
+    disable-swagger-default-url: true

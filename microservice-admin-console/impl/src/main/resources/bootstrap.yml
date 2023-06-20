@@ -1,0 +1,29 @@
+spring:
+  application:
+    name: microservice-admin-console
+
+  cloud:
+    kubernetes:
+      secrets:
+        sources:
+          - namespace: skillbox-alpha
+            name: microservice-admin-console
+      config:
+        sources:
+          - namespace: skillbox-alpha
+            name: microservice-admin-console
+      reload:
+        enabled: true
+        strategy: refresh
+        mode: event
+
+management:
+  endpoint:
+    restart:
+      enabled: true
+    health:
+      enabled: true
+    info:
+      enabled: true
+    prometheus:
+      enabled: true

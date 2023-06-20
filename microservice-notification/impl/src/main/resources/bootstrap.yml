@@ -1,0 +1,29 @@
+spring:
+  application:
+    name: microservice-notification
+
+  cloud:
+    kubernetes:
+      secrets:
+        sources:
+          - name: microservice-notification
+            namespace: skillbox-alpha
+      config:
+        sources:
+          - namespace: skillbox-alpha
+            name: microservice-notification
+      reload:
+        enabled: true
+        strategy: refresh # restart_context | shutdown
+        mode: event # polling
+
+management:
+  endpoint:
+    restart:
+      enabled: true
+    health:
+      enabled: true
+    info:
+      enabled: true
+    prometheus:
+      enabled: true

@@ -1,0 +1,182 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: microservice-admin-console
+stringData:
+  DB_HOST: "postgres-service"
+  DB_PASSWORD: "admin-console"
+  DB_SCHEMA: "admin-console"
+  DB_USERNAME: "admin-console"
+  DB_NAME: "skillbox"
+  CLOUDINARY_NAME: "da0wr9y51"
+  CLOUDINARY_KEY: "439542312243829"
+  CLOUDINARY_SECRET: "FkPFGJDXGZAc3M5IqmIbFCQLXQw"
+
+---
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: microservice-admin-console
+data:
+  application.yml: |-
+
+    server:
+      port: 8080
+
+    spring:
+      liquibase:
+        enabled: true
+        drop-first: false
+        change-log: classpath:database-admin-console-changelog.xml
+        default_schema: admin_console
+
+      datasource:
+        url: jdbc:postgresql://82.202.214.42:5433/skillbox
+        username: admin-console
+        password: admin-console
+        driverClassName: org.postgresql.Driver
+
+      jpa:
+        show-sql: false
+        hibernate:
+          ddl-auto: none
+        properties:
+          hibernate:
+            dialect: org.hibernate.dialect.PostgreSQL10Dialect
+            format_sql: true
+            default_schema: admin_console
+        open-in-view: false
+
+      servlet:
+        multipart:
+          enabled: true
+          max-file-size: 3MB
+          max-request-size: 10MB
+          resolve-lazily: true
+
+      quartz:
+        job-store-type: jdbc
+        jdbc:
+          initialize-schema: never
+        properties:
+          org:
+            quartz:
+              scheduler:
+                instanceId: AUTO
+              jobStore:
+                driverDelegateClass: org.quartz.impl.jdbcjobstore.PostgreSQLDelegate
+                useProperties: false
+                tablePrefix: admin_console.QRTZ_
+                misfireThreshold: 60000
+                isClustered: false
+              threadPool:
+                threadCount: 1
+
+    scheduler:
+      birthday:
+        name: BirthDayNotificationJob
+        cron: "0 0 0 * * ?"
+        className: ru.skillbox.diplom.group35.microservice.admin_console.impl.service.scheduler.jobs.BirthDayNotificationJob
+      delayedpost:
+        name: DelayedPostJob
+        cron: "0/30 * * * * ?"
+        className: ru.skillbox.diplom.group35.microservice.admin_console.impl.service.scheduler.jobs.DelayPostJob
+
+    cloudinary:
+      config:
+        cloud_name: da0wr9y51
+        api_key: 439542312243829
+        api_secret: FkPFGJDXGZAc3M5IqmIbFCQLXQw
+
+    springdoc:
+      api-docs:
+        enabled: true
+        path: '/api/v1/admin-console/v3/api-docs'
+      swagger-ui:
+        path: '/api/v1/admin-console/swagger-ui'
+        doc-expansion: none
+        disable-swagger-default-url: true
+
+    logging:
+      level:
+        org.springframework: info
+
+---
+
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: microservice-admin-console
+  namespace: skillbox-alpha
+  labels:
+    app: microservice-admin-console
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: microservice-admin-console
+  template:
+    metadata:
+      labels:
+        app: microservice-admin-console
+    spec:
+      volumes:
+        - name: microservice-admin-console
+          configMap:
+            name: microservice-admin-console
+            items:
+              - key: application.yml
+                path: application.yml
+      containers:
+        - name: app
+          image: alphateam35/microservice-admin-console:latest
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+          env:
+            - name: JAVA_OPTIONS
+              value: '-Xms128m -Xmx256m -Xss512k'
+            - name: DB_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: microservice-admin-console
+                  key: DB_HOST
+            - name: DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: microservice-admin-console
+                  key: DB_USERNAME
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: microservice-admin-console
+                  key: DB_PASSWORD
+          resources:
+            limits:
+              cpu: 300m
+              memory: 450Mi
+            requests:
+              cpu: 200m
+              memory: 256Mi
+          volumeMounts:
+            - name: microservice-admin-console
+              mountPath: /app/config
+          imagePullPolicy: Always
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: microservice-admin-console
+  namespace: skillbox-alpha
+spec:
+  selector:
+    app: microservice-admin-console
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 8080
+  type: NodePort
+

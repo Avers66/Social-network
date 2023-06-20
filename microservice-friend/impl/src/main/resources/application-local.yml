@@ -1,0 +1,55 @@
+server:
+  port: 8080
+
+spring:
+  boot:
+    admin:
+      client:
+        enabled: false
+  cloud:
+    kubernetes:
+      config:
+        enabled: false
+      reload:
+        monitoring-config-maps: false
+
+  liquibase:
+    enabled: true
+    drop-first: true
+    default-schema: friend
+    liquibase-schema: friend
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/skillbox
+    username: friend
+    password: friend
+    driverClassName: org.postgresql.Driver
+
+  jpa:
+    show-sql: false
+    hibernate:
+      ddl-auto: none # none || create_drop
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQL10Dialect
+        format_sql: true
+        default_schema: friend # geo search-engine
+    open-in-view: false
+
+  kafka:
+    consumer:
+      group-id: event.1
+    bootstrap-servers: kafka-statefulset-0.kafka-svc.kafka.svc.cluster.local:9092
+
+
+  autoconfigure:
+    exclude:    org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration
+
+springdoc:
+  api-docs:
+    enabled: true
+    path: '/api/v1/friends/v3/api-docs'
+  swagger-ui:
+    path: '/api/v1/friends/swagger-ui'
+    doc-expansion: none
+    disable-swagger-default-url: true

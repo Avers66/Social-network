@@ -1,0 +1,145 @@
+kind: Secret
+apiVersion: v1
+metadata:
+  name: microservice-post
+  namespace: skillbox-alpha
+data:
+  DB_HOST: cG9zdGdyZXMtc2VydmljZQ==
+  DB_NAME: c2tpbGxib3g=
+  DB_PASSWORD: cG9zdA==
+  DB_SCHEMA: cG9zdA==
+  DB_USERNAME: cG9zdA==
+  PG_ADMIN: c2tpbGxib3g=
+  PG_ADMIN_PASSWORD: c2tpbGxib3g=
+type: Opaque
+
+---
+
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: microservice-post
+  namespace: skillbox-alpha
+
+data:
+  application.yml: |-
+
+    server:
+      port: 8080
+
+    spring:
+      liquibase:
+        enabled: true
+        drop-first: false
+        change-log: classpath:database-post-changelog.xml
+        default_schema: post
+
+      datasource:
+        url: jdbc:postgresql://postgres-service:5432/skillbox
+        username: post
+        password: post
+        driverClassName: org.postgresql.Driver
+
+      jpa:
+        show-sql: true
+        hibernate:
+          ddl-auto: none
+        properties:
+          hibernate:
+            dialect: org.hibernate.dialect.PostgreSQL10Dialect
+            format_sql: true
+            default_schema: post
+        open-in-view: false
+      
+      microservice-post:
+        url: http://microservice-post
+    logging:
+      level:
+        org.springframework: info
+        
+---
+
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: microservice-post
+  namespace: skillbox-alpha
+  labels:
+    app: microservice-post
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: microservice-post
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: microservice-post
+    spec:
+      volumes:
+        - name: microservice-post
+          configMap:
+            name: microservice-post
+            items:
+              - key: application.yml
+                path: application.yml
+            defaultMode: 420
+      containers:
+        - name: app
+          image: alphateam35/microservice-post:latest
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+          env:
+            - name: DB_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: microservice-post
+                  key: DB_HOST
+            - name: DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: microservice-post
+                  key: DB_USERNAME
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: microservice-post
+                  key: DB_PASSWORD
+          volumeMounts:
+            - name: microservice-post
+              mountPath: /app/config
+          resources:
+              limits:
+                cpu: 300m
+                memory: 450Mi
+              requests:
+                cpu: 200m
+                memory: 256Mi 
+
+---
+
+
+kind: Service
+apiVersion: v1
+metadata:
+  name: microservice-post
+  namespace: skillbox-alpha
+spec:
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+      nodePort: 32566
+  selector:
+    app: microservice-post
+
+  type: NodePort
+  sessionAffinity: None
+  externalTrafficPolicy: Cluster
+  ipFamilies:
+    - IPv4
+  ipFamilyPolicy: SingleStack
+  internalTrafficPolicy: Cluster
+  

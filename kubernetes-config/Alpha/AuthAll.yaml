@@ -1,0 +1,149 @@
+kind: Secret
+apiVersion: v1
+metadata:
+  name: microservice-authorization
+  namespace: skillbox-alpha
+data:
+  DB_HOST: cG9zdGdyZXMtc2VydmljZQ==
+  DB_NAME: c2tpbGxib3g=
+  DB_PASSWORD: YXV0aG9yaXphdGlvbg==
+  DB_SCHEMA: YXV0aG9yaXphdGlvbg==
+  DB_USERNAME: YXV0aG9yaXphdGlvbg==
+  PG_ADMIN: c2tpbGxib3g=
+  PG_ADMIN_PASSWORD: c2tpbGxib3g=
+type: Opaque
+
+
+---
+
+
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: microservice-authorization
+  namespace: skillbox-alpha
+
+data:
+  application.yml: |-
+
+    server:
+      port: 8080
+
+    spring:
+      liquibase:
+        enabled: true
+        drop-first: false
+        change-log: classpath:database-authorization-changelog.xml
+        default-schema: auth
+        liquibase-schema: auth
+
+
+      datasource:
+        url: jdbc:postgresql://postgres-service:5432/skillbox
+        username: authorization
+        password: authorization
+        driverClassName: org.postgresql.Driver
+
+      jpa:
+        show-sql: true
+        hibernate:
+          ddl-auto: none
+        properties:
+          hibernate:
+            dialect: org.hibernate.dialect.PostgreSQL10Dialect
+            format_sql: true
+            default_schema: auth
+        open-in-view: false
+        
+    logging:
+      level:
+        org.springframework: info    
+
+
+
+---
+
+
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: microservice-authorization
+  namespace: skillbox-alpha
+  labels:
+    app: microservice-authorization
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: microservice-authorization
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: microservice-authorization
+    spec:
+      volumes:
+        - name: microservice-authorization
+          configMap:
+            name: microservice-authorization
+            items:
+              - key: application.yml
+                path: application.yml
+            defaultMode: 420
+      containers:
+        - name: app
+          image: alphateam35/microservice-authorization:latest
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+          env:
+            - name: JAVA_OPTIONS
+              value: '-Xms128m -Xmx256m -Xss512k'
+            - name: DB_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: microservice-authorization
+                  key: DB_HOST
+            - name: DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: microservice-authorization
+                  key: DB_USERNAME
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: microservice-authorization
+                  key: DB_PASSWORD
+          resources:
+            limits:
+              cpu: 300m
+              memory: 450Mi
+            requests:
+              cpu: 200m
+              memory: 256Mi
+          volumeMounts:
+            - name: microservice-authorization
+              mountPath: /app/config
+
+
+
+
+
+---
+
+
+kind: Service
+apiVersion: v1
+metadata:
+  name: microservice-authorization
+  namespace: skillbox-alpha
+
+spec:
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+      nodePort: 30628
+  selector:
+    app: microservice-authorization
+  type: NodePort

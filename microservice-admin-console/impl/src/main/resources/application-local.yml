@@ -1,0 +1,86 @@
+server:
+  port: 8083
+  tomcat:
+    max-swallow-size: 100MB
+
+spring:
+  security:
+    user:
+      name: admin-console
+      password: admin-console
+  liquibase:
+    enabled: true
+    drop-first: false
+    change-log: classpath:database-admin-console-changelog.xml
+    default_schema: admin_console
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/skillbox
+    username: admin-console
+    password: admin-console
+    driverClassName: org.postgresql.Driver
+
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQL10Dialect
+        format_sql: true
+        default_schema: admin_console
+    open-in-view: false
+
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 3MB
+      max-request-size: 10MB
+      resolve-lazily: true
+
+  quartz:
+    job-store-type: jdbc
+    jdbc:
+      initialize-schema: never
+    properties:
+      org:
+        quartz:
+          scheduler:
+            instanceId: AUTO
+          jobStore:
+            driverDelegateClass: org.quartz.impl.jdbcjobstore.PostgreSQLDelegate
+            useProperties: false
+            tablePrefix: admin_console.QRTZ_
+            misfireThreshold: 60000
+            isClustered: false
+          threadPool:
+            threadCount: 1
+
+scheduler:
+  birthday:
+    name: BirthDayNotificationJob
+    cron: "0 0 * * * ?"
+    className: ru.skillbox.diplom.group35.microservice.admin_console.impl.service.scheduler.jobs.BirthDayNotificationJob
+  delayedpost:
+    name: DelayedPostJob
+    cron: "0 0 * * * ?"
+    className: ru.skillbox.diplom.group35.microservice.admin_console.impl.service.scheduler.jobs.DelayPostJob
+
+cloudinary:
+  config:
+    cloud_name: da0wr9y51
+    api_key: 439542312243829
+    api_secret: FkPFGJDXGZAc3M5IqmIbFCQLXQw
+
+springdoc:
+  api-docs:
+    enabled: true
+    path: '/api/v1/admin-console/v3/api-docs'
+  swagger-ui:
+    path: '/api/v1/admin-console/swagger-ui'
+    doc-expansion: none
+    disable-swagger-default-url: true
+
+logging:
+  level:
+    org.springframework: info

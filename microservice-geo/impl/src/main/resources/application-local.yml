@@ -1,0 +1,79 @@
+spring:
+  security:
+    user:
+      name: geo
+      password: geo
+  boot:
+    admin:
+      client:
+        enabled: false
+  cloud:
+    kubernetes:
+      config:
+        enabled: false
+      reload:
+        monitoring-config-maps: false
+
+  liquibase:
+    enabled: true # true || false
+    drop-first: false # true || false
+    change-log: classpath:database-geo-changelog.xml
+    default-schema: geo
+    liquibase-schema: geo
+
+  datasource:
+    url: jdbc:postgresql://major:5432/skillbox
+    username: geo
+    password: geo
+    driverClassName: org.postgresql.Driver
+
+  jpa:
+      show-sql: false
+      hibernate:
+        ddl-auto: none # none || create_drop
+      properties:
+        hibernate:
+          dialect: org.hibernate.dialect.PostgreSQL10Dialect
+          format_sql: true
+          default_schema: geo # geo search-engine
+      open-in-view: false
+
+
+  redis:
+     host: localhost
+     timeout: 2000
+  cache:
+     redis:
+       time-to-live: 600000 # TTL ms
+  data:
+     redis:
+       repositories.enabled: false
+
+logging:
+  level:
+    org.springframework: info # info || debug || trace
+
+  file:
+    name:  application.log
+
+springdoc:
+    api-docs:
+      enabled: true
+      path: '/api/v1/geo/v3/api-docs'
+    swagger-ui:
+      path: '/api/v1/geo/swagger-ui'
+      doc-expansion: none
+      disable-swagger-default-url: true
+
+
+geo-settings:
+  countries:
+    - countryName:  Россия
+      id: 113
+    - countryName:  Беларусь
+      id: 16
+    - countryName:  Казахстан
+      id: 40
+#    - countryName:  Грузия
+#      id: 28
+  userAgent: api-test-agent

@@ -1,0 +1,45 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: frontend-deployment
+  namespace: skillbox-alpha
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frontend-pod
+  template:
+    metadata:
+      name: frontend-pod
+      creationTimestamp: null
+      labels:
+        app: frontend-pod
+    spec:
+      containers:
+        - name: frontend
+          image: alphateam35/frontend:latest
+          ports:
+            - containerPort: 80
+              protocol: TCP
+
+
+
+---
+
+
+kind: Service
+apiVersion: v1
+metadata:
+  name: frontend-service
+  namespace: skillbox-alpha
+spec:
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  selector:
+    app: frontend-pod
+  type: ClusterIP
+
+
+

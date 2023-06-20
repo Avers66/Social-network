@@ -1,0 +1,150 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: microservice-notification
+stringData:
+  DB_USERNAME: notification
+  DB_PASSWORD: notification
+  DB_HOST: postgres-service:5432
+  DB_SCHEMA: notification
+  DB_DATABASE: skillbox
+  
+  
+
+---
+
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: microservice-notification
+data:
+  application.yaml: |-
+
+
+    server:
+      port: 8080
+
+    spring:
+      liquibase:
+        enabled: true
+        drop-first: false
+        change-log: classpath:database-notification-changelog.xml
+
+      datasource:
+        url: jdbc:postgresql://${DB_HOST}/${DB_DATABASE}
+        username: ${DB_USERNAME}
+        password: ${DB_PASSWORD}
+        driverClassName: org.postgresql.Driver
+
+      jpa:
+        show-sql: false
+        hibernate:
+          ddl-auto: none
+        properties:
+          hibernate:
+            dialect: org.hibernate.dialect.PostgreSQL10Dialect
+            format_sql: true
+            default_schema: ${DB_SCHEMA}
+        open-in-view: false
+
+      kafka:
+        consumer:
+          group-id: event.1
+        bootstrap-servers: kafka-statefulset-0.kafka-svc.kafka.svc.cluster.local:9092
+
+
+
+      autoconfigure:
+        exclude:    org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration
+        
+    springdoc:
+      api-docs:
+        enabled: true
+        path: '/api/v1/notifications/v3/api-docs'
+      swagger-ui:
+        path: '/api/v1/notifications/swagger-ui'
+        doc-expansion: none
+        disable-swagger-default-url: true        
+
+
+
+---
+
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: microservice-notification
+  namespace: skillbox-alpha
+  labels:
+    app: microservice-notification
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: microservice-notification
+  template:
+    metadata:
+      labels:
+        app: microservice-notification
+        project: microservice-notification
+    spec:
+      containers:
+      - name: microservice-notification
+        image: alphateam35/microservice-notification:latest
+        env:
+          - name: DB_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: microservice-notification
+                key: DB_USERNAME
+          - name: DB_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: microservice-notification
+                key: DB_PASSWORD
+          - name: DB_HOST
+            valueFrom:
+              secretKeyRef:
+                name: microservice-notification
+                key: DB_HOST 
+          - name: DB_DATABASE
+            valueFrom:
+              secretKeyRef:
+                name: microservice-notification
+                key: DB_DATABASE 
+          - name: DB_SCHEMA
+            valueFrom:
+              secretKeyRef:
+                name: microservice-notification
+                key: DB_SCHEMA 
+        resources:
+            limits:
+              cpu: 300m
+              memory: 450Mi
+            requests:
+              cpu: 200m
+              memory: 256Mi        
+
+
+
+---
+
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: microservice-notification
+  labels:
+    env  : prod
+    owner: TretyakovAS
+spec:
+  selector:
+    app: microservice-notification    # Selecting PODS with those Labels
+  ports:
+    - name      : app-listener
+      protocol  : TCP
+      port      : 80  # Port on Load Balancer
+      targetPort: 8080  # Port on POD
+  type: ClusterIP

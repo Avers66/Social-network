@@ -1,0 +1,174 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: microservice-geo
+stringData:
+  DB_USERNAME: geo
+  DB_PASSWORD: geo
+  DB_HOST: postgres-service:5432
+  DB_SCHEMA: geo
+  DB_DATABASE: skillbox
+  REDIS_HOST: redis-service
+
+
+
+---
+
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: microservice-geo
+data:
+  application.yaml: |-
+
+    spring:
+      boot:
+        admin:
+          client:
+            enabled: false
+
+
+      liquibase:
+        enabled: true
+        drop-first: false
+        change-log: classpath:database-geo-changelog.xml
+
+      datasource:
+        url: jdbc:postgresql://${DB_HOST}/${DB_DATABASE}
+        username: ${DB_USERNAME}
+        password: ${DB_PASSWORD}
+        driverClassName: org.postgresql.Driver
+        hikari:
+          minimum-idle: 10
+          maximum-pool-size: 50
+
+      jpa:
+        show-sql: false
+        hibernate:
+          ddl-auto: none
+        properties:
+          hibernate:
+            dialect: org.hibernate.dialect.PostgreSQL10Dialect
+            format_sql: true
+            default_schema: ${DB_SCHEMA}
+        open-in-view: false
+
+      redis:
+        host: ${REDIS_HOST}
+        timeout: 2000
+      cache:
+        redis:
+          time-to-live: 600000 # TTL ms
+      data:
+        redis:
+          repositories.enabled: false
+          
+    springdoc:
+        api-docs:
+          enabled: true
+          path: '/api/v1/geo/v3/api-docs'
+        swagger-ui:
+          path: '/api/v1/geo/swagger-ui'
+          doc-expansion: none
+          disable-swagger-default-url: true          
+    
+    geo-settings:
+      countries:
+        - countryName:  Россия
+          id: 113
+        - countryName:  Беларусь
+          id: 16
+        - countryName:  Казахстан
+          id: 40
+        - countryName:  Грузия
+          id: 28    
+      userAgent: api-test-agent
+
+
+
+---
+
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: microservice-geo
+  namespace: skillbox-alpha
+  labels:
+    app: microservice-geo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: microservice-geo
+  template:
+    metadata:
+      labels:
+        app: microservice-geo
+        project: microservice-geo
+    spec:
+      containers:
+      - name: microservice-geo-container
+        image: alphateam35/microservice-geo:latest
+        env:
+          - name: DB_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: microservice-geo
+                key: DB_USERNAME
+          - name: DB_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: microservice-geo
+                key: DB_PASSWORD
+          - name: DB_HOST
+            valueFrom:
+              secretKeyRef:
+                name: microservice-geo
+                key: DB_HOST 
+          - name: DB_DATABASE
+            valueFrom:
+              secretKeyRef:
+                name: microservice-geo
+                key: DB_DATABASE 
+          - name: DB_SCHEMA
+            valueFrom:
+              secretKeyRef:
+                name: microservice-geo
+                key: DB_SCHEMA
+          - name: REDIS_HOST
+            valueFrom:
+              secretKeyRef:
+                name: microservice-geo
+                key: REDIS_HOST       
+        resources:
+            limits:
+              cpu: 300m
+              memory: 450Mi
+            requests:
+              cpu: 200m
+              memory: 256Mi 
+
+
+---
+
+
+
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: microservice-geo
+  labels:
+    env  : prod
+    owner: TretyakovAS
+spec:
+  selector:
+    app: microservice-geo    # Selecting PODS with those Labels
+  ports:
+    - name      : app-listener
+      protocol  : TCP
+      port      : 80  # Port on Load Balancer
+      targetPort: 8080  # Port on POD
+  type: ClusterIP

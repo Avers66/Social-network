@@ -1,0 +1,103 @@
+kind: Ingress
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: skillbox-ingress
+  namespace: skillbox-alpha
+
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-read-timeout: '172800'
+    nginx.ingress.kubernetes.io/proxy-send-timeout: '172800'
+    nginx.ingress.kubernetes.io/rewrite-target: /$1/$2/$3$4$5
+    nginx.ingress.kubernetes.io/websocket-services: microservice-streaming
+
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: geo.info
+      http:
+        paths:
+          - path: /(api)/(v1)/(auth)(/|$)(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: microservice-authorization
+                port:
+                  number: 80
+          - path: /(api)/(v1)/(account)(/|$)(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: microservice-account
+                port:
+                  number: 80
+          - path: /(api)/(v1)/(dialogs)(/|$)(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: microservice-dialog
+                port:
+                  number: 80
+          - path: /(api)/(v1)/(admin-console)(/|$)(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: microservice-admin-console
+                port:
+                  number: 80
+          - path: /(api)/(v1)/(storage)(/|$)(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: microservice-admin-console
+                port:
+                  number: 80
+          - path: /(api)/(v1)/(streaming)(/|$)(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: microservice-streaming
+                port:
+                  number: 80
+          - path: /(api)/(v1)/(post)(/|$)(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: microservice-post
+                port:
+                  number: 80
+          - path: /(api)/(v1)/(tag)(/|$)(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: microservice-post
+                port:
+                  number: 80
+          - path: /(api)/(v1)/(geo)(/|$)(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: microservice-geo
+                port:
+                  number: 80
+          - path: /(api)/(v1)/(friends)(/|$)(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: microservice-friend
+                port:
+                  number: 80
+          - path: /(api)/(v1)/(notifications)(/|$)(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: microservice-notification
+                port:
+                  number: 80
+          - path: /()()()()(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: frontend-service
+                port:
+                  number: 80
+

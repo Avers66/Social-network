@@ -1,0 +1,147 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: microservice-friend
+stringData:
+  DB_USERNAME: friend
+  DB_PASSWORD: friend
+  DB_HOST: postgres-service:5432
+  DB_SCHEMA: friend
+  DB_DATABASE: skillbox
+  
+  
+  
+---
+
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: microservice-friend
+data:
+  application.yaml: |-
+
+
+    server:
+      port: 8080
+
+    spring:
+      liquibase:
+        enabled: true
+        drop-first: false
+        change-log: classpath:database-friend-changelog.xml
+
+      datasource:
+        url: jdbc:postgresql://${DB_HOST}/${DB_DATABASE}
+        username: ${DB_USERNAME}
+        password: ${DB_PASSWORD}
+        driverClassName: org.postgresql.Driver
+
+      jpa:
+        show-sql: false
+        hibernate:
+          ddl-auto: none
+        properties:
+          hibernate:
+            dialect: org.hibernate.dialect.PostgreSQL10Dialect
+            format_sql: true
+            default_schema: ${DB_SCHEMA}
+        open-in-view: false
+
+      autoconfigure:
+        exclude:    org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration
+        
+      kafka:
+        consumer:
+            group-id: event.1
+        bootstrap-servers: 82.202.214.42:9092
+        
+    springdoc:
+      api-docs:
+        enabled: true
+        path: '/api/v1/friend/v3/api-docs'
+      swagger-ui:
+        path: '/api/v1/friend/swagger-ui'
+        doc-expansion: none
+        disable-swagger-default-url: true        
+
+
+---
+
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: microservice-friend
+  namespace: skillbox-alpha
+  labels:
+    app: microservice-friend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: microservice-friend
+  template:
+    metadata:
+      labels:
+        app: microservice-friend
+        project: microservice-friend
+    spec:
+      containers:
+      - name: microservice-friend
+        image: alphateam35/microservice-friend:latest
+        env:
+          - name: DB_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: microservice-friend
+                key: DB_USERNAME
+          - name: DB_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: microservice-friend
+                key: DB_PASSWORD
+          - name: DB_HOST
+            valueFrom:
+              secretKeyRef:
+                name: microservice-friend
+                key: DB_HOST 
+          - name: DB_DATABASE
+            valueFrom:
+              secretKeyRef:
+                name: microservice-friend
+                key: DB_DATABASE 
+          - name: DB_SCHEMA
+            valueFrom:
+              secretKeyRef:
+                name: microservice-friend
+                key: DB_SCHEMA 
+        resources:
+            limits:
+              cpu: 300m
+              memory: 450Mi
+            requests:
+              cpu: 200m
+              memory: 256Mi        
+
+
+
+---
+
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: microservice-friend
+  labels:
+    env  : prod
+    owner: TretyakovAS
+spec:
+  selector:
+    app: microservice-friend    # Selecting PODS with those Labels
+  ports:
+    - name      : app-listener
+      protocol  : TCP
+      port      : 80  # Port on Load Balancer
+      targetPort: 8080  # Port on POD
+  type: ClusterIP              
