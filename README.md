@@ -1,5 +1,6 @@
 # Social-network
-Social network Code Lounge
+Social network Code Lounge.
+
 I worked together with a team of 10 people. 
 I have developed three microservices - microservice-geo, microservice-friend, microservice-notification.
 ![image](https://github.com/Avers66/Social-network/assets/122222024/2cf08563-ae0e-43dc-afd2-0e8ee7cd0496)
