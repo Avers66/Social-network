@@ -54,21 +54,37 @@ public class StreamingService {
   }
 
   public void handleMessage(WebSocketSession session, TextMessage message) throws IOException {
+    UUID authorId = getAccountId(session);
     String payload = message.getPayload();
-    log.info("Received message: {}", payload);
+    log.info("Received message from user: {}", payload);
     JsonNode jsonNode = objectMapper.readTree(payload);
     if (jsonNode.get(TYPE_FIELD).textValue().equals(MESSAGE_TYPE)) {
       StreamingMessageDto<MessageDto> streamingMessageDto = objectMapper.readValue(payload, type);
       streamingMessageDto.getData().setReadStatus(MESSAGE_STATUS_SENT);
-      transmitMessage(streamingMessageDto);
+      streamingMessageDto.getData().setTime(ZonedDateTime.now());
+      transmitMessage(reconstructStreamingMessage(authorId, streamingMessageDto));
     }
+  }
+
+  private StreamingMessageDto<MessageDto> reconstructStreamingMessage(UUID authorId,
+      StreamingMessageDto<MessageDto> dto) {
+    if (dto.getData().getConversationPartner2().equals(authorId)) {
+      dto.getData().setConversationPartner2(dto.getData().getConversationPartner1());
+    }
+    dto.getData().setConversationPartner1(authorId);
+    if (dto.getRecipientId().equals(authorId)) {
+      dto.setRecipientId(dto.getData().getConversationPartner2());
+    }
+    return dto;
   }
 
   public void sendToSocketMessage(@NotNull StreamingMessageDto<?> streamingMessageDto) {
     UUID accountId = streamingMessageDto.getRecipientId();
-    log.info("Sending message: {} to user with id: {}", streamingMessageDto, accountId);
+    log.info("Check whether user: {} is connected to send the message: {}",
+        accountId, streamingMessageDto);
     if (webSocketPool.poolContains(accountId)) {
       try {
+        log.info("Sending message: {} to user with id: {}", streamingMessageDto, accountId);
         webSocketPool.getSession(accountId).sendMessage(
             new TextMessage(objectMapper.writeValueAsString(streamingMessageDto)));
       } catch (IOException e) {

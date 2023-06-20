@@ -62,7 +62,7 @@
       <im-chat :user-info="users" :info="activeDialog" :messages="messages" />
     </div>
 
-    <div v-else class="no-dialog">Диалог не выбран</div>
+    <div v-else class="no-dialog">{{ translations.messageDialogNotSelected }}</div>
   </div>
 </template>
 
@@ -72,6 +72,7 @@ import { mapActions, mapState, mapMutations, mapGetters } from 'vuex';
 import UnknowUser from '../../Icons/UnknowUser.vue';
 import ImChat from '@/components/Im/Chat';
 import dialogsApi from '@/requests/dialogs';
+import translations from '@/utils/lang.js';
 
 export default {
   name: 'Im',
@@ -94,6 +95,15 @@ export default {
     ...mapState('profile/dialogs', ['dialogs', 'messages', 'newMessage']),
     ...mapGetters('global/search', ['getResultByIdSearch', 'getUsersQueryParams']),
     ...mapState('profile/info', ['info']),
+
+    translations() {
+      const lang = this.$store.state.auth.languages.language.name;
+      if (lang === 'Русский') {
+        return translations.rus;
+      } else {
+        return translations.eng;
+      }
+    },
 
     users() {
       return this.getResultByIdSearch('users');

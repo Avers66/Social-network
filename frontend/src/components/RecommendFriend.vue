@@ -2,8 +2,12 @@
   <div class="recommend-block">
     <h3 class="recommend-block__title">{{ translations.recommendBlockTitle }}</h3>
     <ul v-if="usersRecomendation.length !== 0" class="recommend-block__list">
-      <li class="recommend-block__item" v-for="user in usersRecomendation" :key="user?.id">
+      <li class="recommend-block__item" v-for="user in sortedUsers" :key="user?.id">
         <div class="recommend-block__item-info">
+          <div class="recommend-block__rating">
+            <star-icon />
+            <span class="recommend-block__rating-number">{{ getFriendRating(user.id) }}</span>
+          </div>
           <div class="recommend-block__img-container">
             <img v-if="user.photo" class="recommend-block__img" :src="user?.photo" :alt="user?.firstName">
             <span v-else>
@@ -36,13 +40,15 @@
 <script>
 import { mapGetters, mapActions } from 'vuex';
 import UnknowUser from '../Icons/UnknowUser.vue';
+import StarIcon from '../Icons/StarIcon.vue';
 import translations from '@/utils/lang.js';
 
 export default {
   name: 'FriendsPossible',
 
   components: {
-    UnknowUser
+    UnknowUser,
+    StarIcon
   },
 
   computed: {
@@ -55,6 +61,15 @@ export default {
 
     usersRecomendation() {
       return this.getResultByIdSearch('users');
+    },
+
+    sortedUsers() {
+      const usersCopy = [...this.usersRecomendation];
+      return usersCopy.sort((a, b) => {
+        const ratingA = this.getFriendRating(a.id);
+        const ratingB = this.getFriendRating(b.id);
+        return ratingB - ratingA;
+      });
     },
 
     getIdsPossibleFriends() {
@@ -90,6 +105,11 @@ export default {
     ...mapActions('profile/friends', ['apiAddFriends', 'apiRecommendations']),
     ...mapActions('global/search', ['searchUsers']),
 
+    getFriendRating(userId) {
+      const friend = this.possibleFriends.find(f => f.friendId === userId);
+      return friend ? friend.rating : '';
+    },
+
     onSearchUsers() {
       const searchQuery = Object.assign({}, this.getUsersQueryParams, {
         ids: this.getIdsPossibleFriends,
@@ -110,6 +130,17 @@ export default {
     background ui-cl-color-white-theme
     box-shadow 0px 2px 8px rgba(0, 0, 0, 0.08)
     border-radius border-small
+
+    &__rating
+      display flex
+      align-items center
+      flex-direction row
+      gap 5px
+
+    &__rating-number
+      font-weight font-weight-bold
+      font-size font-size-super-medium-small
+
 
     &__img-container
       display flex
@@ -157,9 +188,10 @@ export default {
       justify-content space-between
 
       &-info
+        position relative
         display flex
         align-items center
-        gap 10px
+        gap 7px
 
       &:not(nth-child(1))
         padding-top 15px

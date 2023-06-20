@@ -34,9 +34,24 @@
       </router-link>
 
       <div>
-        <span class="user-status chat-isonline-lasttime" v-if="filteredUserInfo[0]?.lastOnlineTime === null">был(а) в сети давно</span>
-        <span class="user-status chat-isonline-isonline-online" v-else-if="filteredUserInfo[0]?.isOnline">Онлайн</span>
-        <span class="user-status chat-isonline-isonline-lasttime" v-else>был(а) в сети {{ filteredUserInfo[0]?.lastOnlineTime | moment('from') }}</span>
+        <span
+          class="user-status chat-isonline-lasttime"
+          v-if="filteredUserInfo[0]?.lastOnlineTime === null"
+        >
+          {{ translations.messageStatusLongAgo }}
+        </span>
+        <span
+          class="user-status chat-isonline-isonline-online"
+          v-else-if="filteredUserInfo[0]?.isOnline"
+        >
+          {{ translations.profileInfoStatusOnline }}
+        </span>
+        <span
+          class="user-status chat-isonline-isonline-lasttime"
+          v-else
+        >
+          {{ translations.messageStatusWasOnline }} {{ filteredUserInfo[0]?.lastOnlineTime | moment('from') }}
+        </span>
       </div>
     </div>
 
@@ -57,7 +72,7 @@
       >
         <div class="im-chat__loader" slot="header" v-show="fetching">
           <div class="spinner" v-show="!isHistoryEndReached()" />
-          <div class="finished" v-show="isHistoryEndReached()">Больше сообщений нет</div>
+          <div class="finished" v-show="isHistoryEndReached()">{{ translations.messageHistoryIsFinal }}</div>
         </div>
       </virtual-list>
     </div>
@@ -66,7 +81,7 @@
       <input
         class="im-chat__enter-input"
         type="text"
-        placeholder="Ваше сообщение..."
+        :placeholder="translations.messageInputPlaceholder"
         v-model="mes"
       />
     </form>
@@ -79,6 +94,7 @@ import UnknowUser from '../../Icons/UnknowUser.vue';
 import axios from 'axios';
 import ChatMessage from '@/components/Im/ChatMessage.vue'
 import VirtualList from 'vue-virtual-scroll-list';
+import translations from '@/utils/lang.js';
 
 const makeHeader = (msgDate) => {
   return { id: `group-${msgDate}`, stubDate: true, date: msgDate };
@@ -110,6 +126,15 @@ export default {
 
   computed: {
     ...mapGetters('profile/info', ['getInfo']),
+
+    translations() {
+      const lang = this.$store.state.auth.languages.language.name;
+      if (lang === 'Русский') {
+        return translations.rus;
+      } else {
+        return translations.eng;
+      }
+    },
 
     messagesGrouped() {
       let groups = [];
@@ -146,7 +171,7 @@ export default {
       if (this.follow) this.setVirtualListToBottom();
     },
 
-    getInfoConversationPartner() {
+    async getInfoConversationPartner() {
       this.getMessageChat()
     }
   },
@@ -265,10 +290,6 @@ export default {
 .isonline-online
   color ui-cl-color-white-bright-second
   background-color ui-cl-color-eucalypt
-
-.isonline-lasttime
-  background-color #333
-  color ui-cl-color-white-bright-second
 
 .im-chat__user
   display flex

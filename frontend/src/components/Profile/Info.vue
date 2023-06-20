@@ -934,6 +934,9 @@ export default {
     width 1250px
     max-width 100%
 
+    &__value .profile-info__val
+      font-size font-size-small-medium
+
     &__not-info
       width 1250px
       max-width 100%

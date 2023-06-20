@@ -24,7 +24,7 @@
       />
 
       <div class="change-password__action">
-        <button-hover tag="button" type="submit" variant="white">{{ translations.recoveryPassBtn }}</button-hover>
+        <button type="submit" class="form-layout__btn btn__fargot">{{ translations.recoveryPassBtn }}</button>
       </div>
     </form>
   </div>
@@ -98,9 +98,13 @@ export default {
   flex-direction column
   height 100%
 
+.change-password .form__group+.form__group
+  margin-top 20px
+
 .change-password__title
   margin-bottom 50px
+  color #fff
 
 .change-password__action
-  margin-top 50px
+  margin-top 30px
 </style>

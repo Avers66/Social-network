@@ -7,7 +7,7 @@
       {{ source.date }}
     </h5>
 
-    <div v-else class="im-chat__message-block">
+    <div v-else class="im-chat__message-block" :class="{ me: isSentByMe }">
       <p class="im-chat__message-text">{{ source.messageText }}</p>
       <span class="im-chat__message-time">{{ source.time | moment('YYYY-MM-DD hh:mm') }}</span>
     </div>
@@ -16,6 +16,7 @@
 
 
 <script>
+import { mapState, mapGetters } from 'vuex';
 
 export default {
   name: 'InfiniteLoadingItem',
@@ -32,12 +33,24 @@ export default {
   },
 
   computed: {
+    ...mapState('profile/info', ['info']),
+
     messageConversation() {
       return this.source?.conversationPartner1 === this.info?.id ? this.source?.conversationPartner2 :
            this.source?.conversationPartner2 === this.info?.id ? this.source?.conversationPartner1 :
            null;
     },
+
+	 isSentByMe() {
+		return this.source?.conversationPartner1 === this.info?.id ? true :
+			this.source?.conversationPartner2 === this.info?.id ? false :
+			false
+	 }
   },
+
+  methods: {
+    ...mapGetters('profile/info', ['getInfo']),
+  }
 };
 </script>
 

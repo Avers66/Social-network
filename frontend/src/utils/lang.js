@@ -47,6 +47,13 @@ export default {
     sidebarNews: 'Новости',
     sidebarSetting: 'Настройки',
 
+    messageStatusLongAgo: 'был(а) в сети давно',
+    messageStatusWasOnline: 'был(а) в сети',
+    messageHistoryIsFinal: 'Больше сообщений нет',
+    messageInputPlaceholder: 'Ваше сообщение...',
+    messageDialogNotSelected: 'Диалог не выбран',
+
+
     yes: 'Да',
     cancel: 'Отмена',
 
@@ -177,6 +184,22 @@ export default {
     newsBlockCommentTitleFirst: 'Посмотреть комментарии',
     newsBlockCommentTitleSecond: 'Скрыть комментарии',
     newsBlockCommentMore: 'Ещё комментарии...',
+    newsStepFirst: `Заголовок должен быть привлекательным и интересным.
+    Он должен содержать ключевые слова, которые будут отражать суть новости, и быть лаконичным, чтобы быстро захватить внимание.
+    Также важно использовать заголовки, которые вызывают эмоции, такие как любопытство, удивление или волнение,
+    чтобы привлечь внимание читателей.`,
+    newsStepSecond: `Тело новости должно быть информативным, логичным и увлекательным.
+    Оно должно содержать все необходимые детали и факты, которые подтверждают заголовок.
+    Важно использовать ясный и простой язык, чтобы читатели могли легко понимать содержание статьи.
+    Также стоит использовать креативные подзаголовки, чтобы разбить текст на более мелкие части и сделать его более доступным для чтения.
+    Кроме того, тело новости должно вызывать эмоции и удерживать внимание читателей до конца статьи.`,
+    newsStepThird: `Используйте уже существующие тэги, если они соответствуют содержанию вашей статьи.
+    Для этого начните вводить слово в поле и выберите нужный тэг из списка.
+    Если нужного тэга нет в списке, добавьте новый, но придерживайтесь ограничения в 10 символов.
+    Название тэга должно быть кратким, но информативным.`,
+    newsStepFour: `Вы можете запланировать новость на любое доступное время, чтобы она была опубликована автоматически.
+    Пожалуйста, убедитесь, что время публикации не в прошлом времени.
+    Вы также можете отслеживать запланированные новости в своем профиле и редактировать их содержимое при необходимости.`,
 
     commentAddPlaceholderFirst: 'Написать ответ...',
     commentAddPlaceholderSecond: 'Написать комментарий...',
@@ -195,6 +218,8 @@ export default {
     searchNewsLastMonth: 'За последний месяц',
     searchNewsLastWeek: 'За последнюю неделю',
     searchNewsBtnComplited: 'Применить',
+    searchNewsShowMoreButton: 'Показать фильтры',
+    searchNewsCloseMoreButton: 'Скрыть фильтры',
 
     searchUserNameInput: 'Введите имя',
     searchUserSurnameInput: 'Введите фамилию',
@@ -352,6 +377,12 @@ export default {
     weatherMaxTemp: 'Max. temperature:',
     weatherLoading: 'Uploading weather data...',
 
+    messageStatusLongAgo: 'been online for a long time',
+    messageStatusWasOnline: 'was online',
+    messageHistoryIsFinal: 'There are no more messages',
+    messageInputPlaceholder: 'Your message...',
+    messageDialogNotSelected: 'The dialog is not selected',
+
     yes: 'Yes',
     cancel: 'Cancel',
 
@@ -416,6 +447,22 @@ export default {
     newsBlockCommentTitleFirst: 'View comments',
     newsBlockCommentTitleSecond: 'Hide comments',
     newsBlockCommentMore: 'More comments...',
+    newsStepFirst: `The title should be attractive and interesting.
+    It should contain keywords that will reflect the essence of the news, and be concise in order to quickly capture attention.
+    It is also important to use headlines that evoke emotions such as curiosity, surprise or excitement.,
+    to attract the attention of readers.`,
+    newsStepSecond: `The body of the news should be informative, logical and fascinating.
+    It should contain all the necessary details and facts that confirm the title.
+    It is important to use clear and simple language so that readers can easily understand the content of the article.
+    It is also worth using creative subheadings to break the text into smaller parts and make it more readable.
+    In addition, the body of the news should evoke emotions and hold the attention of readers until the end of the article.`,
+    newsStepThird: `Use existing tags if they correspond to the content of your article.
+    To do this, start typing a word in the field and select the desired tag from the list.
+    If the desired tag is not in the list, add a new one, but stick to the 10-character limit.
+    The tag name should be short but informative.`,
+    newsStepFour: `You can schedule a news item at any available time so that it is published automatically.
+    Please make sure that the publication time is not in the past time.
+    You can also track scheduled news in your profile and edit their content if necessary.`,
 
     commentAddPlaceholderFirst: 'Write an answer...',
     commentAddPlaceholderSecond: 'Write a comment...',
@@ -440,6 +487,8 @@ export default {
     searchNewsTitle: 'News',
     searchNewsEmpty: 'There is no news to display at the moment',
     searchUserEmpty: 'There are no people to display at the moment',
+    searchNewsShowMoreButton: 'Show filters',
+    searchNewsCloseMoreButton: 'Hide Filters',
 
     settingBtnChange: 'Change',
     settingPasswordLabel: 'Password:',

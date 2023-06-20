@@ -11,7 +11,11 @@
           Если у вас возникнут какие-либо вопросы или трудности, наши специалисты готовы помочь вам. Свяжитесь с нами любым удобным для вас способом,
           и мы сделаем все возможное, чтобы помочь вам вернуться к использованию вашего аккаунта. (нет)
         </p>
-        <p class="delete-account__description-timer">Вы можете восстановить свою страницу до <strong>12 июня 15:35</strong></p>
+        <p class="delete-account__description-timer">
+          Вы можете восстановить свою страницу до
+          <strong>{{ formattedTenDaysFromDeletion }}</strong>
+          после чего ваш аккаунт будет удалён окончательно.
+        </p>
         <button class="delete-account__btn" @click.prevent="submitHandler">Восстановить аккаунт</button>
       </div>
     </div>
@@ -21,11 +25,28 @@
 <script>
 import HeaderBlock from '@/components/MainLayout/Header.vue';
 import { mapActions} from 'vuex';
+import moment from 'moment';
 
   export default {
     name: 'DeleteAccount',
     components: {
       HeaderBlock
+    },
+
+    props: {
+      info: Object
+    },
+
+    computed: {
+      tenDaysFromDeletion() {
+      return moment(this.info.deletionTimestamp).add(1, 'days');
+      },
+      formattedDeletionTimestamp() {
+        return moment(this.info.this.deletionTimestamp).format('DD.MM.YYYY HH:mm');
+      },
+      formattedTenDaysFromDeletion() {
+        return this.tenDaysFromDeletion.format('DD.MM.YYYY HH:mm');
+      },
     },
 
     methods: {

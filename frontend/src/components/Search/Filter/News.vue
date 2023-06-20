@@ -1,44 +1,60 @@
 <template>
   <div>
-    <div class="search-filter">
-      <div class="search-filter__block">
-        <label class="search__label" for="search-news-author">{{ translations.searchNewsAuthor }}</label>
-        <input
-          class="search__input search-news-author"
-          type="text"
-          :placeholder="translations.searchNewsInputPlaceholder"
-          id="search-news-author"
-          v-model="author"
-        />
+    <button
+      class="search-showmore-filter"
+      @click.prevent="showBlock = !showBlock"
+      :class="{ 'open-filter': showBlock }"
+    >
+      <span v-if="!showBlock">{{ translations.searchNewsShowMoreButton }}</span>
+      <span v-else>{{ translations.searchNewsCloseMoreButton }}</span>
+      <arrow-bottom />
+    </button>
+    <transition name="fade">
+      <div class="search-filter--news" v-show="showBlock">
+        <div class="search-filter">
+          <div class="search-filter__block">
+            <label class="search__label" for="search-news-author">{{ translations.searchNewsAuthor }}</label>
+            <input
+              class="search__input search-news-author"
+              type="text"
+              :placeholder="translations.searchNewsInputPlaceholder"
+              id="search-news-author"
+              v-model="author"
+            />
+          </div>
+          <div class="search-filter__block time">
+            <label class="search__label">{{ translations.searchNewsTimePost }}</label>
+            <select class="select search-filter__select" v-model="dateFrom">
+              <option value="null">{{ translations.searchNewsAllTime }}</option>
+              <option value="year">{{ translations.searchNewsLastYear }}</option>
+              <option value="month">{{ translations.searchNewsLastMonth }}</option>
+              <option value="week">{{ translations.searchNewsLastWeek }}</option>
+            </select>
+          </div>
+          <div class="search-filter__block tags">
+            <add-tags :allowManualAddition="false" :tags="updateTags" @change-tags="onChangeTags" />
+          </div>
+        </div>
+        <div class="search-filter__block btn-news">
+          <button class="search-filter__btn" @click.prevent="onSearchNews">
+            {{ translations.searchNewsBtnComplited }}
+          </button>
+        </div>
       </div>
-      <div class="search-filter__block time">
-        <label class="search__label">{{ translations.searchNewsTimePost }}</label>
-        <select class="select search-filter__select" v-model="dateFrom">
-          <option value="null">{{ translations.searchNewsAllTime }}</option>
-          <option value="year">{{ translations.searchNewsLastYear }}</option>
-          <option value="month">{{ translations.searchNewsLastMonth }}</option>
-          <option value="week">{{ translations.searchNewsLastWeek }}</option>
-        </select>
-      </div>
-      <div class="search-filter__block tags">
-        <add-tags :allowManualAddition="false" :tags="updateTags" @change-tags="onChangeTags" />
-      </div>
-    </div>
-    <div class="search-filter__block btn-news">
-      <button-hover @click.native="onSearchNews">{{ translations.searchNewsBtnComplited }}</button-hover>
-    </div>
+    </transition>
   </div>
 </template>
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
 import translations from '@/utils/lang.js';
+import ArrowBottom from '../../../Icons/ArrowBottom.vue';
 import moment from 'moment';
 import AddTags from '@/components/News/AddTags';
 
 export default {
   name: 'SearchFilterNews',
-  components: { AddTags },
+  components: { AddTags, ArrowBottom },
 
   data: () => ({
     updateTags: [],
@@ -47,6 +63,7 @@ export default {
     page: 1,
     itemPerPage: 5,
     author: '',
+    showBlock: false,
   }),
 
   computed: {
@@ -112,6 +129,14 @@ export default {
 
 <style lang="stylus">
 @import '../../../assets/stylus/base/vars.styl'
+
+  .search-filter--news
+    &.fade-enter-active,
+    &.fade-leave-active
+      transition all .2s ease-in-out
+    &.fade-enter,
+    &.fade-leave-to
+      opacity 0
 
   .search-news-author
     width 200px

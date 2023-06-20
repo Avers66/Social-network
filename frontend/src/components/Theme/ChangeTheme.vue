@@ -274,6 +274,9 @@ methods: {
   .main-layout__actions-profile-item .form-layout-list__language-item:hover span:nth-child(2)
     color ui-cl-color-white-theme
 
+  .delete-account
+    color ui-cl-color-white-theme
+
   .shine
     background ui-cl-color-2f2f2f
     background-image linear-gradient(to right, ui-cl-color-2f2f2f 0%, ui-cl-color-dark-grey 20%, ui-cl-color-2f2f2f 40%, ui-cl-color-2f2f2f 100%)
@@ -287,6 +290,26 @@ methods: {
   .im__dialogs
     background-color ui-cl-color-dark-grey
     border 1px solid ui-cl-color-border-dark
+
+  .im-chat__message-block.me p
+    background-color ui-cl-color-eucalypt !important
+    border-color ui-cl-color-eucalypt !important
+
+  .vs--searchable .vs__dropdown-toggle
+    background transparent
+    border-color #828282
+    color #fff
+
+  .search-showmore-filter
+    color ui-cl-color-white-theme
+    svg path
+      stroke ui-cl-color-white-theme
+
+  .scroll-to-top
+    background-color #222
+    border 1px solid #424242
+  .scroll-to-top svg
+    stroke ui-cl-color-white-theme
 
   .settings-main__cover::after
     background-image: linear-gradient(to bottom, rgba(255,255,255,0), ui-cl-color-dark-grey);
@@ -381,6 +404,8 @@ methods: {
 
   .post-reactions
     background-color #333
+    &:hover
+      background-color ui-cl-color-full-black
 
   .post-reactions__reactions
     background-color #363636
@@ -484,6 +509,7 @@ methods: {
       &__item
         background transparent
         border-color ui-cl-color-5c5c5c
+        color ui-cl-color-5c5c5c
         &:hover
           background ui-cl-color-1d1d1d
           border-color ui-cl-color-1d1d1d
@@ -673,6 +699,9 @@ methods: {
     background-color ui-cl-color-dark-grey
     border 1px solid ui-cl-color-border-dark
 
+    &__rating-number
+      color #ffd700
+
     &__img-container
       background-color ui-cl-color-border-dark
 
@@ -806,9 +835,9 @@ methods: {
   .post-block__tags-item
     background-color ui-cl-color-full-black
     &:hover
-      background-color ui-cl-color-1d1d1d
+      background-color #3c3c3c
     a
-      color ui-cl-color-dfdfdf
+      color ui-cl-color-white-theme !important
 
   .post-block__timer
     color ui-cl-color-dfdfdf
@@ -827,6 +856,10 @@ methods: {
   .like-comment
     background-color ui-cl-color-grey-color
     color ui-cl-color-b2b2b2
+    &:hover
+      background-color ui-cl-color-full-black
+      svg g path:nth-child(2)
+        fill #b2b2b2
 
   .open-comment
     border-color #3d3d3d

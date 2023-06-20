@@ -56,7 +56,7 @@ export default {
     },
 
     searchUsers() {
-      return this.$store.getters['global/search/getResultById']('users');
+      return this.$store.getters['global/search/getResultByIdSearch']('users');
     },
   },
 

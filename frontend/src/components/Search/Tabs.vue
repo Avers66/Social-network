@@ -41,25 +41,17 @@ export default {
   margin-bottom 15px
 
 .search-tabs__item
-  display block
-  min-width 120px
-  max-width 120px
-  color ui-cl-color-767676
-  border-radius border-super-small
+  display inline-block
   text-align center
-  background ui-cl-color-white-theme
-  border 1px solid ui-cl-color-ababab
-  font-size font-size-small
-  padding 10px
+  color ui-cl-color-eucalypt
+  padding 8px 13px
+  border 2px solid #21a45d
+  transition all 0.2s ease-in-out
   cursor pointer
-  transition all .2s ease-in-out
-
-  @media (any-hover: hover)
-    &:hover
-      color ui-cl-color-dark-grey
-      background ui-cl-color-c8ecd8
-      border-color ui-cl-color-c8ecd8
-
+  &:hover
+    background #333
+    border-color #333
+    color #fff
 
   &.active
     color ui-cl-color-white-theme

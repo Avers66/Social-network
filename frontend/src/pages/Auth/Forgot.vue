@@ -53,6 +53,11 @@ export default {
         return;
       }
 
+      this.$store.dispatch('global/alert/setAlert', {
+        status: 'status',
+        text: 'Такого email-адреса не существует',
+      });
+
       this.passwordRecovery({ email: this.email }).then(() => {
         const emailDomain = 'https://' + this.email.split('@').pop();
         this.setBtn({

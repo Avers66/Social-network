@@ -1,17 +1,17 @@
 <template>
   <div id="app">
-    <component :is="layout" v-if="$route.meta.layout">
+    <component :is="layout" v-if="$route.meta.layout && !isDeleted">
       <router-view />
     </component>
-    <!-- <div class="deleted-account" v-else>
-      <delete-account />
-    </div> -->
+    <div class="deleted-account" v-else-if="isDeleted">
+      <delete-account :info="info" />
+    </div>
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
-// import DeleteAccount from './layouts/DeleteAccount.vue';
+import { mapGetters, mapState } from 'vuex';
+import DeleteAccount from './layouts/DeleteAccount.vue';
 
 export default {
   name: 'App',
@@ -19,10 +19,12 @@ export default {
     FormLayout: () => import('@/layouts/FormLayout'),
     MainLayout: () => import('@/layouts/MainLayout'),
     EmptyLayout: () => import('@/layouts/EmptyLayout'),
+    DeleteAccount
   },
   computed: {
     ...mapGetters('global/alert', ['getState']),
-    ...mapGetters('profile/info', ['getInfo']),
+    ...mapState('profile/info', ['info']),
+
     alert() {
       return this.$store.state.global.alert;
     },
@@ -30,9 +32,9 @@ export default {
       return this.$route.meta.layout + '-layout';
     },
 
-    // isDeleted() {
-    //   return this.getInfo && this.getInfo.isDeleted;
-    // },
+    isDeleted() {
+      return this.info && this.info.isDeleted;
+    },
   },
 
   watch: {
@@ -66,15 +68,15 @@ export default {
     },
   },
 
-  // async mounted() {
-  //   if (!this.getInfo) {
-  //     await this.apiInfo();
-  //   }
-  // },
+  async mounted() {
+    if (!this.getInfo) {
+      await this.apiInfo();
+    }
+  },
 
-  // methods: {
-  //   ...mapActions('profile/info', ['apiInfo']),
-  // }
+  methods: {
+    ...mapGetters('profile/info', ['getInfo']),
+  }
 
 };
 </script>

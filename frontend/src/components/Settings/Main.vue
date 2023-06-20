@@ -387,6 +387,7 @@ export default {
           }, 500)
         } else {
           this.city = '';
+          this.cities = [];
           this.country = '';
         }
       }
