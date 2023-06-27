@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import ru.skillbox.diplom.group35.library.core.annotation.EnableExceptionHandler;
+import ru.skillbox.diplom.group35.library.core.annotation.EnableSwagger;
 import ru.skillbox.diplom.group35.microservice.authorization.api.dto.AuthenticateDto;
 import ru.skillbox.diplom.group35.microservice.authorization.api.dto.AuthenticateResponseDto;
 import ru.skillbox.diplom.group35.microservice.authorization.api.dto.CaptchaDto;
@@ -24,6 +25,7 @@ import ru.skillbox.diplom.group35.microservice.authorization.impl.service.Regist
  * @author Mikhail Chechetkin
  */
 @Slf4j
+@EnableSwagger
 @RestController
 @EnableExceptionHandler
 @RequiredArgsConstructor

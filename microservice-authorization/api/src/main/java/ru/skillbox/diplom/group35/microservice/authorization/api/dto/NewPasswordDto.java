@@ -1,5 +1,6 @@
 package ru.skillbox.diplom.group35.microservice.authorization.api.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 /**
@@ -9,6 +10,8 @@ import lombok.Data;
  */
 
 @Data
+@Schema(description = "DTO для установки нового пароля")
 public class NewPasswordDto {
+    @Schema(description = "Новый пароль")
     private String password;
 }

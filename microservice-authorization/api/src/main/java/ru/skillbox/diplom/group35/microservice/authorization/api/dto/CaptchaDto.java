@@ -10,7 +10,7 @@ import lombok.Data;
  */
 
 @Data
-@Schema(description = "Дто для запроса капчи")
+@Schema(description = "DTO для запроса капчи")
 public class CaptchaDto {
     @Schema(description = "Идентификатор капчи")
     private String secret;

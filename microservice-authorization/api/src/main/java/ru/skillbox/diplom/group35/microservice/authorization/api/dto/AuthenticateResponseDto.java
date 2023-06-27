@@ -1,7 +1,7 @@
 package ru.skillbox.diplom.group35.microservice.authorization.api.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
-import ru.skillbox.diplom.group35.library.core.dto.base.BaseDto;
 
 /**
  * AuthenticateResponseDto
@@ -10,7 +10,10 @@ import ru.skillbox.diplom.group35.library.core.dto.base.BaseDto;
  */
 
 @Data
+@Schema(description = "DTO ответа на аутентификацию")
 public class AuthenticateResponseDto{
+    @Schema(description = "Токен для доступа")
     private String accessToken;
+    @Schema(description = "Токен для обновления")
     private String refreshToken;
 }

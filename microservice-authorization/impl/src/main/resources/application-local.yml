@@ -42,9 +42,9 @@ spring:
       liquibase-schema: auth
 
   datasource:
-      url: jdbc:postgresql://localhost:5432/postgres
-      username: authorization
-      password: authorization
+      url: jdbc:postgresql://host.docker.internal:5432/skillbox
+      username: postgres
+      password: password
       driverClassName: org.postgresql.Driver
 
   cache:
@@ -80,5 +80,14 @@ kafka:
     replication-factor: 1
     login: topic.login
     registration: topic.registration
+
+springdoc:
+  api-docs:
+    enabled: true
+    path: '/api/v1/auth/v3/api-docs'
+  swagger-ui:
+    path: '/api/v1/auth/swagger-ui'
+    doc-expansion: none
+    disable-swagger-default-url: true
 
 
