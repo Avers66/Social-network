@@ -15,6 +15,7 @@ I have developed three microservices - microservice-geo, microservice-friend, mi
 ![image](https://github.com/Avers66/Social-network/assets/122222024/92f65141-243c-4c83-8ee5-a507d575a8c4)
 ![image](https://github.com/Avers66/Social-network/assets/122222024/f61af5bb-e57e-40f7-8c4f-2c8255aca410)
 ![image](https://github.com/Avers66/Social-network/assets/122222024/2533fd3b-f609-48a4-a9bf-df23985a73ae)
+![image](https://github.com/Avers66/Social-network/assets/122222024/a0c7bb53-014e-4aec-86d2-d9349c8c6750)
 
 
 
