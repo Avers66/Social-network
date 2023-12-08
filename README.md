@@ -4,7 +4,7 @@ Social network Code Lounge.
 I worked together with a team of 10 people. 
 I have developed three microservices - microservice-geo, microservice-friend, microservice-notification.
 ![image](https://github.com/Avers66/Social-network/assets/122222024/2cf08563-ae0e-43dc-afd2-0e8ee7cd0496)
-[Структура проекта.pdf](https://github.com/Avers66/Social-network/files/13613233/default.pdf)
+![Структура проекта](https://github.com/Avers66/Social-network/assets/122222024/a29805d9-1d15-493f-a5b7-f44b8e01f61f)
 ![image](https://github.com/Avers66/Social-network/assets/122222024/6a10162f-aa68-4fc3-bb0b-09198d96f54a)
 ![image](https://github.com/Avers66/Social-network/assets/122222024/772530ba-9057-4564-912e-849bbba61522)
 ![image](https://github.com/Avers66/Social-network/assets/122222024/76788a73-71ee-479f-8cf9-09e6df105efb)
