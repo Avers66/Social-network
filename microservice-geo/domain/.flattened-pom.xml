@@ -3,14 +3,14 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>ru.skillbox.diplom.group35</groupId>
+    <groupId>avers66</groupId>
     <artifactId>microservice-geo</artifactId>
     <version>1.0.0-SNAPSHOT</version>
   </parent>
-  <groupId>ru.skillbox.diplom.group35</groupId>
+  <groupId>avers66</groupId>
   <artifactId>microservice-geo-domain</artifactId>
   <version>1.0.0-SNAPSHOT</version>
-  <name>SKILLBOX :: DIPLOM ::  microservice geo :: domain</name>
+  <name>microservice geo :: domain</name>
   <description>microservice geo domain</description>
   <build>
     <sourceDirectory>${project.basedir}/src/main/java</sourceDirectory>
