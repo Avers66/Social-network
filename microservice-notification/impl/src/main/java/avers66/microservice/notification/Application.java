@@ -2,10 +2,10 @@ package avers66.microservice.notification;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import ru.skillbox.diplom.group35.library.core.annotation.EnableBaseRepository;
-import ru.skillbox.diplom.group35.library.core.annotation.EnableOpenFeign;
-import ru.skillbox.diplom.group35.library.core.annotation.EnableSecurity;
-import ru.skillbox.diplom.group35.library.core.annotation.JwtProvider;
+import avers66.library.core.annotation.EnableBaseRepository;
+import avers66.library.core.annotation.EnableOpenFeign;
+import avers66.library.core.annotation.EnableSecurity;
+import avers66.library.core.annotation.JwtProvider;
 
 /**
  * Application
