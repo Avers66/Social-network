@@ -4,22 +4,22 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>ru.skillbox.diplom.group35</groupId>
+        <groupId>avers66</groupId>
         <artifactId>microservice-parent</artifactId>
         <version>1.0.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>microservice-post</artifactId>
-    <groupId>ru.skillbox.diplom.group35</groupId>
+    <groupId>avers66</groupId>
     <version>${revision}${sha1}${changelist}</version>
     <packaging>pom</packaging>
 
-    <name>SKILLBOX :: DIPLOM :: microservice post</name>
+    <name>microservice post</name>
     <description>microservice post</description>
 
     <dependencies>
         <dependency>
-            <groupId>ru.skillbox.diplom.group35</groupId>
+            <groupId>avers66</groupId>
             <artifactId>library-core</artifactId>
         </dependency>
     </dependencies>
