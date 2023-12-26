@@ -3,7 +3,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>ru.skillbox.diplom.group35</groupId>
+        <groupId>avers66</groupId>
         <artifactId>microservice-parent</artifactId>
         <version>1.0.0-SNAPSHOT</version>
     </parent>
@@ -13,12 +13,12 @@
     <version>${revision}${sha1}${changelist}</version>
     <packaging>pom</packaging>
 
-    <name>SKILLBOX :: DIPLOM :: microservice ${artifactIdForDescription}</name>
+    <name>microservice ${artifactIdForDescription}</name>
     <description>microservice ${artifactIdForDescription}</description>
 
     <dependencies>
         <dependency>
-            <groupId>ru.skillbox.diplom.group35</groupId>
+            <groupId>avers66</groupId>
             <artifactId>library-core</artifactId>
         </dependency>
     </dependencies>
