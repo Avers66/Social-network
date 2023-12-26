@@ -4,17 +4,17 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>ru.skillbox.diplom.group35</groupId>
+    <groupId>avers66</groupId>
     <artifactId>microservice-parent</artifactId>
     <version>1.0.0-SNAPSHOT</version>
 
     <packaging>pom</packaging>
 
-    <name>SKILLBOX :: DIPLOM :: microservice parent</name>
+    <name>microservice parent</name>
     <description>microservice parent</description>
 
     <organization>
-        <name>Group35-Skillbox</name>
+        <name>Avers</name>
     </organization>
 
     <developers>
@@ -95,7 +95,7 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>ru.skillbox.diplom.group35</groupId>
+                <groupId>avers66</groupId>
                 <artifactId>library-core</artifactId>
                 <version>${library-core.version}</version>
                 <scope>provided</scope>
@@ -418,7 +418,7 @@
             </plugin>
         </plugins>
     </build>
-
+<!-- nexus>
     <distributionManagement>
         <repository>
             <id>nexus</id>
@@ -431,6 +431,7 @@
             <url>http://82.202.214.42:8081/repository/maven-snapshots</url>
         </snapshotRepository>
     </distributionManagement>
+<-->
 
 
 </project>
