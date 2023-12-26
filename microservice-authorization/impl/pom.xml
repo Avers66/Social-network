@@ -4,14 +4,14 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>microservice-authorization</artifactId>
-        <groupId>ru.skillbox.diplom.group35</groupId>
+        <groupId>avers66</groupId>
         <version>${revision}${sha1}${changelist}</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
     <packaging>jar</packaging>
 
-    <name>SKILLBOX :: DIPLOM :: microservice authorization :: impl</name>
+    <name>microservice authorization :: impl</name>
     <description>microservice authorization impl</description>
     <artifactId>microservice-authorization-impl</artifactId>
 
@@ -24,22 +24,22 @@
 
     <dependencies>
         <dependency>
-            <groupId>ru.skillbox.diplom.group35</groupId>
+            <groupId>avers66</groupId>
             <artifactId>microservice-authorization-api</artifactId>
             <version>${revision}${sha1}${changelist}</version>
         </dependency>
         <dependency>
-            <groupId>ru.skillbox.diplom.group35</groupId>
+            <groupId>avers66</groupId>
             <artifactId>microservice-authorization-db</artifactId>
             <version>${revision}${sha1}${changelist}</version>
         </dependency>
         <dependency>
-            <groupId>ru.skillbox.diplom.group35</groupId>
+            <groupId>avers66</groupId>
             <artifactId>microservice-authorization-domain</artifactId>
             <version>${revision}${sha1}${changelist}</version>
         </dependency>
         <dependency>
-            <groupId>ru.skillbox.diplom.group35</groupId>
+            <groupId>avers66</groupId>
             <artifactId>microservice-account-api</artifactId>
             <version>${revision}${sha1}${changelist}</version>
         </dependency>
