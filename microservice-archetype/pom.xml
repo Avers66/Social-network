@@ -3,13 +3,13 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>ru.skillbox.diplom.group35</groupId>
+    <groupId>avers66</groupId>
     <artifactId>microservice-archetype</artifactId>
     <version>${revision}${sha1}${changelist}</version>
 
     <packaging>maven-archetype</packaging>
 
-    <name>SKILLBOX :: DIPLOM :: :: microservice archetype</name>
+    <name>microservice archetype</name>
 
     <properties>
         <revision>1.0.0</revision>
@@ -60,6 +60,7 @@
         </plugins>
     </build>
 
+<!-->
     <distributionManagement>
         <repository>
             <id>nexus</id>
@@ -72,5 +73,7 @@
             <url>http://82.202.214.42:8081/repository/maven-snapshots</url>
         </snapshotRepository>
     </distributionManagement>
+<-->
+
 
 </project>
