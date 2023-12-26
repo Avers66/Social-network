@@ -1,4 +1,4 @@
-package ru.skillbox.diplom.group35.microservice.streaming.impl.websocket;
+package avers66.microservice.streaming.impl.websocket;
 
 import java.util.Collections;
 import lombok.RequiredArgsConstructor;

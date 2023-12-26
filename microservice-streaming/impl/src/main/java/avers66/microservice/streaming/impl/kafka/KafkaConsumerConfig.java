@@ -1,4 +1,4 @@
-package ru.skillbox.diplom.group35.microservice.streaming.impl.kafka;
+package avers66.microservice.streaming.impl.kafka;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,7 +15,7 @@ import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
 import org.springframework.kafka.listener.ConcurrentMessageListenerContainer;
 import org.springframework.kafka.listener.ContainerProperties.AckMode;
 import org.springframework.kafka.support.serializer.JsonDeserializer;
-import ru.skillbox.diplom.group35.library.core.dto.streaming.StreamingMessageDto;
+import avers66.library.core.dto.streaming.StreamingMessageDto;
 
 /**
  * KafkaConsumerConfig

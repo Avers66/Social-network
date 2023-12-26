@@ -1,4 +1,4 @@
-package ru.skillbox.diplom.group35.microservice.streaming.impl.kafka;
+package avers66.microservice.streaming.impl.kafka;
 
 import java.util.HashMap;
 import java.util.Map;

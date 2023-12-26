@@ -1,4 +1,4 @@
-package ru.skillbox.diplom.group35.microservice.streaming.impl.service;
+package avers66.microservice.streaming.impl.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -8,9 +8,9 @@ import org.springframework.kafka.support.Acknowledgment;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.skillbox.diplom.group35.library.core.dto.streaming.EventNotificationDto;
-import ru.skillbox.diplom.group35.library.core.dto.streaming.MessageDto;
-import ru.skillbox.diplom.group35.library.core.dto.streaming.StreamingMessageDto;
+import avers66.library.core.dto.streaming.EventNotificationDto;
+import avers66.library.core.dto.streaming.MessageDto;
+import avers66.library.core.dto.streaming.StreamingMessageDto;
 
 /**
  * KafkaConsumerService

@@ -1,4 +1,4 @@
-package ru.skillbox.diplom.group35.microservice.streaming.impl.websocket;
+package avers66.microservice.streaming.impl.websocket;
 
 import java.io.IOException;
 import lombok.RequiredArgsConstructor;
@@ -9,7 +9,7 @@ import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
-import ru.skillbox.diplom.group35.microservice.streaming.impl.service.StreamingService;
+import avers66.microservice.streaming.impl.service.StreamingService;
 
 /**
  * StreamingHandler

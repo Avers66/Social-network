@@ -1,4 +1,4 @@
-package ru.skillbox.diplom.group35.microservice.streaming.impl.utils;
+package avers66.microservice.streaming.impl.utils;
 
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.MapperFeature;
@@ -7,8 +7,8 @@ import com.fasterxml.jackson.databind.json.JsonMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
-import ru.skillbox.diplom.group35.library.core.dto.streaming.MessageDto;
-import ru.skillbox.diplom.group35.library.core.dto.streaming.StreamingMessageDto;
+import avers66.library.core.dto.streaming.MessageDto;
+import avers66.library.core.dto.streaming.StreamingMessageDto;
 
 /**
  * New

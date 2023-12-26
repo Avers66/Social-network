@@ -1,4 +1,4 @@
-package ru.skillbox.diplom.group35.microservice.streaming.impl.utils;
+package avers66.microservice.streaming.impl.utils;
 
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;

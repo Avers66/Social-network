@@ -1,4 +1,4 @@
-package ru.skillbox.diplom.group35.microservice.streaming.impl.service;
+package avers66.microservice.streaming.impl.service;
 
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -13,10 +13,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
-import ru.skillbox.diplom.group35.library.core.dto.streaming.MessageDto;
-import ru.skillbox.diplom.group35.library.core.dto.streaming.StreamingMessageDto;
-import ru.skillbox.diplom.group35.microservice.streaming.impl.utils.WebSocketPool;
-import ru.skillbox.diplom.group35.microservice.streaming.resource.api.dto.AccountOnlineDto;
+import avers66.library.core.dto.streaming.MessageDto;
+import avers66.library.core.dto.streaming.StreamingMessageDto;
+import avers66.microservice.streaming.impl.utils.WebSocketPool;
+import avers66.microservice.streaming.resource.api.dto.AccountOnlineDto;
 
 /**
  * StreamingService

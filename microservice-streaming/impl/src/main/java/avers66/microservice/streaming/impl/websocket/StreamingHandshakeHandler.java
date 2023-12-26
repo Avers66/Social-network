@@ -1,4 +1,4 @@
-package ru.skillbox.diplom.group35.microservice.streaming.impl.websocket;
+package avers66.microservice.streaming.impl.websocket;
 
 import java.security.Principal;
 import java.util.Map;
@@ -10,8 +10,8 @@ import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.WebSocketHandler;
 import org.springframework.web.socket.server.support.DefaultHandshakeHandler;
-import ru.skillbox.diplom.group35.library.core.utils.SecurityUtil;
-import ru.skillbox.diplom.group35.microservice.streaming.impl.service.StreamingService;
+import avers66.library.core.utils.SecurityUtil;
+import avers66.microservice.streaming.impl.service.StreamingService;
 
 /**
  * StreamingHandshakeHandler
