@@ -9,19 +9,19 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
-import ru.skillbox.diplom.group35.library.core.dto.streaming.EventNotificationDto;
-import ru.skillbox.diplom.group35.library.core.dto.streaming.StreamingMessageDto;
-import ru.skillbox.diplom.group35.library.core.security.config.TechnicalUserConfig;
-import ru.skillbox.diplom.group35.library.core.utils.SecurityUtil;
+import avers66.library.core.dto.streaming.EventNotificationDto;
+import avers66.library.core.dto.streaming.StreamingMessageDto;
+import avers66.library.core.security.config.TechnicalUserConfig;
+import avers66.library.core.utils.SecurityUtil;
 import avers66.microservice.notification.mapper.NotificationMapper;
 import avers66.microservice.notification.mapper.NotificationSettingMapper;
-import ru.skillbox.diplom.group35.microservice.notification.dto.*;
+import avers66.microservice.notification.dto.*;
 
 import avers66.microservice.notification.model.Notification;
 import avers66.microservice.notification.model.NotificationSetting;
 import avers66.microservice.notification.repository.NotificationRepository;
 import avers66.microservice.notification.repository.NotificationSettingRepository;
-import ru.skillbox.diplom.group35.microservice.friend.feignclient.FriendFeignClient;
+import avers66.microservice.friend.feignclient.FriendFeignClient;
 
 
 

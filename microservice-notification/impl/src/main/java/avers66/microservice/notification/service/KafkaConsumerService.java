@@ -5,7 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
-import ru.skillbox.diplom.group35.library.core.dto.streaming.EventNotificationDto;
+import avers66.library.core.dto.streaming.EventNotificationDto;
 
 
 /**

@@ -3,7 +3,7 @@ package avers66.microservice.notification.model;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.envers.RevisionListener;
-import ru.skillbox.diplom.group35.library.core.utils.SecurityUtil;
+import avers66.library.core.utils.SecurityUtil;
 
 /**
  * UserEnversListener

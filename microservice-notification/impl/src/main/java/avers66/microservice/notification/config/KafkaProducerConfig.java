@@ -9,8 +9,8 @@ import org.springframework.kafka.core.DefaultKafkaProducerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.core.ProducerFactory;
 import org.springframework.kafka.support.serializer.JsonSerializer;
-import ru.skillbox.diplom.group35.library.core.dto.streaming.EventNotificationDto;
-import ru.skillbox.diplom.group35.library.core.dto.streaming.StreamingMessageDto;
+import avers66.library.core.dto.streaming.EventNotificationDto;
+import avers66.library.core.dto.streaming.StreamingMessageDto;
 
 
 import java.util.HashMap;

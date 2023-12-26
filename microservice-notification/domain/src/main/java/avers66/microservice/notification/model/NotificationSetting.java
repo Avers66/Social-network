@@ -5,7 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import org.hibernate.envers.Audited;
-import ru.skillbox.diplom.group35.library.core.model.base.BaseEntity;
+import avers66.library.core.model.base.BaseEntity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

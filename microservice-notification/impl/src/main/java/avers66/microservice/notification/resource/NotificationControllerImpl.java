@@ -11,8 +11,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
-import ru.skillbox.diplom.group35.library.core.dto.streaming.EventNotificationDto;
-import ru.skillbox.diplom.group35.microservice.notification.dto.*;
+import avers66.library.core.dto.streaming.EventNotificationDto;
+import avers66.microservice.notification.dto.*;
 
 
 import java.util.UUID;

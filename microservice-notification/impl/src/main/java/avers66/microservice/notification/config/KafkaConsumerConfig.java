@@ -11,7 +11,7 @@ import org.springframework.kafka.config.KafkaListenerContainerFactory;
 import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
 import org.springframework.kafka.support.serializer.JsonDeserializer;
-import ru.skillbox.diplom.group35.library.core.dto.streaming.EventNotificationDto;
+import avers66.library.core.dto.streaming.EventNotificationDto;
 
 
 import java.util.HashMap;
